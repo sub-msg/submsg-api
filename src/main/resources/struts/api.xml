@@ -1,0 +1,43 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <constant name="struts.action.extension" value=""/>
+  
+
+	<package name="message" extends="noLoginInterceptor" namespace="/message">
+		<action name="xsend.json" class="cn.submsg.api.action.MessageSendApiAction"></action>
+	</package>
+	
+	<package name="service" extends="noLoginInterceptor" namespace="/service">
+		<action name="timestamp.json" class="cn.submsg.api.action.TimeStampApiAction"></action>
+	</package>
+
+
+	
+	<package name="noLoginInterceptor" extends="someInterceptor">
+		<interceptors>
+			<!-- 不需要认证的拦截器-->
+			<interceptor name="noLoginInterceptor"
+				class="cn.submsg.api.interceptor.NoLoginInterceptor" />
+			<interceptor-stack name="noLoginStack">
+				<interceptor-ref name="noLoginInterceptor" />
+				<interceptor-ref name="someStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="noLoginStack" />
+	</package>
+	
+	<package name="someInterceptor" extends="myInterceptor">
+		<interceptors>
+			<!-- sql注入烂机器-->
+			<interceptor name="illegalCharacterInterceptor"
+				class="com.sr178.module.web.interceptor.IllegalCharacterInterceptor" />
+			<interceptor-stack name="someStack">
+				<interceptor-ref name="illegalCharacterInterceptor" />
+				<interceptor-ref name="myStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="someStack" />
+	</package>
+</struts>
