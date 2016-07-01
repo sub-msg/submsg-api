@@ -6,7 +6,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 public class ApiRun {
 	public static void main(String[] args) throws Exception {
-		Server server = buildNormalServer(8100, "/");
+		Server server = buildNormalServer(80, "/");
 		server.start();
 	}
 	/**

@@ -23,6 +23,7 @@ public class MessageSendApiAction extends JsonBaseActionSupport{
 	private String sign_type;//签名类型 默认为明文密钥签名  normal  or  md5  or sha1
 	private String vars;//变量参数
     public String execute(){
+    	this.setErrorResult(JSON);
     	ApiService apiService = ServiceCacheFactory.getService(ApiService.class);
     	SendMessageResult result = apiService.sendMsg(appid, tempid, to, timestamp, signature, sign_type, vars,"xsend.json",super.ip());
     	return this.renderObjectResult(result);

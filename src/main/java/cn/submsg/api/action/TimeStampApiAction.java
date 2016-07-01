@@ -13,6 +13,7 @@ public class TimeStampApiAction extends JsonBaseActionSupport{
 	private static final long serialVersionUID = 1L;
 
 	public String execute(){
+		this.setErrorResult(JSON);
 		return this.renderKeyValueResult("timestamp", System.currentTimeMillis());
 	}
 }

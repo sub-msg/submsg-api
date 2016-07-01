@@ -3,17 +3,13 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
     <constant name="struts.action.extension" value=""/>
-  
-
+    <constant name="struts.multipart.saveDir" value="tempfile"/>
 	<package name="message" extends="noLoginInterceptor" namespace="/message">
 		<action name="xsend.json" class="cn.submsg.api.action.MessageSendApiAction"></action>
 	</package>
-	
 	<package name="service" extends="noLoginInterceptor" namespace="/service">
 		<action name="timestamp.json" class="cn.submsg.api.action.TimeStampApiAction"></action>
 	</package>
-
-
 	
 	<package name="noLoginInterceptor" extends="someInterceptor">
 		<interceptors>
