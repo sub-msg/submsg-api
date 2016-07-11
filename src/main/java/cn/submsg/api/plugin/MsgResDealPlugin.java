@@ -7,7 +7,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.sr178.game.framework.log.LogSystem;
 import com.sr178.game.framework.plugin.IAppPlugin;
 
+import cn.submsg.member.bo.MsgDeleverLog;
 import cn.submsg.member.bo.MsgSendLog;
+import cn.submsg.member.dao.MsgDeleverLogDao;
 import cn.submsg.member.dao.MsgSendLogDao;
 import cn.submsg.message.bean.MsgBean;
 import cn.submsg.message.service.MessageQueueService;
@@ -21,6 +23,9 @@ public class MsgResDealPlugin implements IAppPlugin {
     @Autowired
     private MsgSendLogDao msgSendLogDao;
     
+    @Autowired
+    private MsgDeleverLogDao msgDeleverLogDao;
+    
 	@Override
 	public void startup() throws Exception {
 		new Thread(new Runnable() {
@@ -33,6 +38,29 @@ public class MsgResDealPlugin implements IAppPlugin {
 							handlerRequest(msgBean);
 						} else {
 							LogSystem.info("当前没有收到响应的请求");
+						}
+					} catch (Exception e) {
+						LogSystem.error(e, "");
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException ie) {
+							LogSystem.error(ie, "");
+						}
+					}
+				}
+			}
+		}).start();
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						MsgDeleverLog msgDeleverLog = messageQueueService.blockDeleverResMsg();
+						if (msgDeleverLog != null) {
+							handlerRequestDelever(msgDeleverLog);
+						} else {
+							LogSystem.info("当前没有收到发送成功的响应请求！");
 						}
 					} catch (Exception e) {
 						LogSystem.error(e, "");
@@ -72,9 +100,27 @@ public class MsgResDealPlugin implements IAppPlugin {
 		});
 	}
 	
+	/**
+	 * 处理消息
+	 * @param msgBean
+	 */
+	private void handlerRequestDelever(final MsgDeleverLog msgDeleverLog){
+		taskExecuter.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if(msgDeleverLog!=null){
+						msgDeleverLogDao.add(msgDeleverLog);
+					}
+				} catch (Exception e) {
+					LogSystem.error(e, "处理消息发生异常");
+				}
+			}
+		});
+	}
+	
 	@Override
 	public int cpOrder() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
