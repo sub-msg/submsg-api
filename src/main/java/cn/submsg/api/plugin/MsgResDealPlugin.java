@@ -85,12 +85,19 @@ public class MsgResDealPlugin implements IAppPlugin {
 			public void run() {
 				try {
 				  LogSystem.info("处理一条，message-->api的响应消息"+msgBean.toString());
-				  if(msgBean.getStatus()==MsgSendLog.ST_SEND){
-					  msgSendLogDao.updateLogStatusToSend(msgBean.getSendId(), msgBean.getSendTime());
-				  }else if(msgBean.getStatus()==MsgSendLog.ST_FAIL){
-					  msgSendLogDao.updateLogStatusToFail(msgBean.getSendId(), msgBean.getResTime());
+//				  if(msgBean.getStatus()==MsgSendLog.ST_SEND){
+//					  if(!msgSendLogDao.updateLogStatusToSend(msgBean.getSendId(), msgBean.getSendTime())){
+//						  LogSystem.error(new RuntimeException("发送状态更新失败"+msgBean.getSendId()),"");
+//					  }
+//				  }else 
+				 if(msgBean.getStatus()==MsgSendLog.ST_FAIL){
+					  if(!msgSendLogDao.updateLogStatusToFail(msgBean.getSendId(), msgBean.getResTime())){
+						  LogSystem.error(new RuntimeException("失败状态更新失败"+msgBean.getSendId()),"");
+					  }
 				  }else if(msgBean.getStatus()==MsgSendLog.ST_SUCCESS){
-					  msgSendLogDao.updateLogStatusToSuccess(msgBean.getSendId(), msgBean.getResTime(), msgBean.getResCode(), msgBean.getMsgId());
+					  if(!msgSendLogDao.updateLogStatusToSuccess(msgBean.getSendId(), msgBean.getResTime(), msgBean.getResCode(), msgBean.getMsgId())){
+						  LogSystem.error(new RuntimeException("成功状态更新失败"+msgBean.getSendId()),"");
+					  }
 				  }else{
 					  LogSystem.warn("非正常的响应状态"+msgBean);
 				  }
