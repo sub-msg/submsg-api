@@ -84,6 +84,7 @@ public class MsgResDealPlugin implements IAppPlugin {
 			@Override
 			public void run() {
 				try {
+				  LogSystem.info("处理一条，message-->api的响应消息"+msgBean.toString());
 				  if(msgBean.getStatus()==MsgSendLog.ST_SEND){
 					  msgSendLogDao.updateLogStatusToSend(msgBean.getSendId(), msgBean.getSendTime());
 				  }else if(msgBean.getStatus()==MsgSendLog.ST_FAIL){
@@ -110,6 +111,7 @@ public class MsgResDealPlugin implements IAppPlugin {
 			public void run() {
 				try {
 					if(msgDeleverLog!=null){
+						LogSystem.info("处理一条，网关的delever的响应消息"+msgDeleverLog.toString());
 						msgDeleverLogDao.add(msgDeleverLog);
 					}
 				} catch (Exception e) {
