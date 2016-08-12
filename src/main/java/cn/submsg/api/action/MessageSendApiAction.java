@@ -1,5 +1,6 @@
 package cn.submsg.api.action;
 
+
 import com.sr178.game.framework.context.ServiceCacheFactory;
 import com.sr178.module.web.action.JsonBaseActionSupport;
 
@@ -69,4 +70,12 @@ public class MessageSendApiAction extends JsonBaseActionSupport{
 	public void setVars(String vars) {
 		this.vars = vars;
 	}
+//	public static void main(String[] args) throws IOException {
+//		SendMessageResult result = new SendMessageResult();
+//		MessageSendApiAction action = new MessageSendApiAction();
+//		action.renderObjectResult(result);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		JsonGenerator jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(System.out, JsonEncoding.UTF8);
+//		jsonGenerator.writeObject(action.getDataMap());
+//	}
 }
