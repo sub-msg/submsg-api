@@ -23,9 +23,10 @@ public class MessageSendApiAction extends JsonBaseActionSupport{
 	private String signature;//签名
 	private String sign_type;//签名类型 默认为明文密钥签名  normal  or  md5  or sha1
 	private String vars;//变量参数
+	private int sendType;
     public String execute(){
     	ApiService apiService = ServiceCacheFactory.getService(ApiService.class);
-    	SendMessageResult result = apiService.sendMsg(appid, tempid, to, timestamp, signature, sign_type, vars,"xsend.json",super.ip());
+    	SendMessageResult result = apiService.sendMsg(appid, tempid, to, timestamp, signature, sign_type, vars,"xsend.json",super.ip(),sendType);
     	return this.renderObjectResult(result);
     }
 	public String getAppid() {
@@ -69,6 +70,12 @@ public class MessageSendApiAction extends JsonBaseActionSupport{
 	}
 	public void setVars(String vars) {
 		this.vars = vars;
+	}
+	public int getSendType() {
+		return sendType;
+	}
+	public void setSendType(int sendType) {
+		this.sendType = sendType;
 	}
 //	public static void main(String[] args) throws IOException {
 //		SendMessageResult result = new SendMessageResult();
