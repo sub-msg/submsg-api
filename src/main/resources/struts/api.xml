@@ -7,6 +7,9 @@
 	<package name="message" extends="noLoginInterceptor" namespace="/message">
 		<action name="xsend.json" class="cn.submsg.api.action.MessageSendApiAction"></action>
 	</package>
+	<package name="internationalsms" extends="noLoginInterceptor" namespace="/internationalsms">
+		<action name="xsend.json" class="cn.submsg.api.action.MessageInternationalSendApiAction"></action>
+	</package>
 	<package name="service" extends="noLoginInterceptor" namespace="/service">
 		<action name="timestamp.json" class="cn.submsg.api.action.TimeStampApiAction"></action>
 	</package>
