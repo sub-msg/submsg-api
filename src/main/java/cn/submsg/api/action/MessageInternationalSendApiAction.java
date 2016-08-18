@@ -26,6 +26,7 @@ public class MessageInternationalSendApiAction extends JsonBaseActionSupport{
 	private String vars;//变量参数
 	private int sendType;
     public String execute(){
+    	this.setErrorResult(JSON);
     	ApiService apiService = ServiceCacheFactory.getService(ApiService.class);
     	SendMessageResult result = apiService.sendMsgInternational(appid, region_code, tempid, to, timestamp, signature, sign_type, vars, "internationalxsend.json", super.ip(), sendType);
     	return this.renderObjectResult(result);

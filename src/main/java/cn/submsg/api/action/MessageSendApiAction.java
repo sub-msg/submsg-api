@@ -25,6 +25,7 @@ public class MessageSendApiAction extends JsonBaseActionSupport{
 	private String vars;//变量参数
 	private int sendType;
     public String execute(){
+    	this.setErrorResult(JSON);
     	ApiService apiService = ServiceCacheFactory.getService(ApiService.class);
     	SendMessageResult result = apiService.sendMsg(appid, tempid, to, timestamp, signature, sign_type, vars,"xsend.json",super.ip(),sendType);
     	return this.renderObjectResult(result);
